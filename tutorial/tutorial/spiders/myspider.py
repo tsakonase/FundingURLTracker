@@ -6,10 +6,15 @@ class TermsOfUseSpider(scrapy.Spider):
     name = "tou_spider"
 
     def start_requests(self):
-        # provide a list of URLs
-        for url in [
-            "https://www.alexslemonade.org/terms-of-use"
-        ]:
+
+        ## provide a list of URLs
+        #for url in [
+        #    "https://www.alexslemonade.org/terms-of-use"
+        #]:
+
+        # or, read the URL from command line:
+        url = getattr(self, 'url', None)
+        if url is not None:
             yield scrapy.Request(url=url, callback=self.parse)
 
     def parse (self, response):
@@ -35,3 +40,4 @@ class TermsOfUseSpider(scrapy.Spider):
         # just log for now, until we know more:
         self.log("\n".join(snippets))
 
+        yield {"snippets": "\n".join(snippets)}

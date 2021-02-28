@@ -6,7 +6,9 @@ from nltk.corpus import stopwords
 
 nltk.download("stopwords")
 nltk.download("wordnet")
-
+"""
+Word tokenizer wrapper based on NTLK
+"""
 class WordTokenizeText:
 
     def __init__(self):

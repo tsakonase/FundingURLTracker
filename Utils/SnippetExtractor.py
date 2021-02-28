@@ -1,6 +1,9 @@
 import unidecode
 from nltk.tokenize import sent_tokenize
 
+"""
+Snippet extractor based on tokenization of sentences (NLTK) and simple keyword matching
+"""
 class KeywordChecker:
 
     def __init__(self):
@@ -38,4 +41,3 @@ class KeywordChecker:
                 if n_keyphrase in n_sent:
                     snippets.append("KEYPHRASE: " + keyphrase + " is in the SENTENCE: " + n_sent)
         return snippets
-

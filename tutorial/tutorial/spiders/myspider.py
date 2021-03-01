@@ -36,6 +36,7 @@ class TermsOfUseSpider(scrapy.Spider):
 
         # extract snippets:
         snippets = KeywordChecker().extract_snippets(text)
+        snippets = [snippet + " has keyphrase: " + keyword for keyword, snippet in snippets]
 
         # just log for now, until we know more:
         self.log("\n".join(snippets))

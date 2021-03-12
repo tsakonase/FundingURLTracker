@@ -26,19 +26,25 @@ class TermsOfUseSpider(scrapy.Spider):
             print ("BeautifulSoup failed to parse the response, exiting...")
             exit()
 
+        text = None
         # try to extract text from soup
         try:
-            txt = soup.find_all(text=True)
-            text = ' '.join([s for s in list(txt) if s.strip().strip("\n").strip()])
+            # kill all script and style elements
+            for script in soup(["script", "style"]):
+                script.extract()  # rip it out
+            # get text
+            text = soup.get_text()
+            # break into lines and remove leading and trailing space on each
+            lines = (line.strip() for line in text.splitlines())
+            # break multi-headlines into a line each
+            chunks = [phrase.strip() for line in lines for phrase in line.split("  ")]
+            # drop blank lines
+            text = '\n'.join(chunk for chunk in chunks if chunk)
         except:
             print ("Failed to extract the text from HTML, exiting...")
             exit()
 
         # extract snippets:
         snippets = KeywordChecker().extract_snippets(text)
-        snippets = [snippet + " has keyphrase: " + keyword for keyword, snippet in snippets]
 
-        # just log for now, until we know more:
-        self.log("\n".join(snippets))
-
-        yield {"snippets": "\n".join(snippets)}
+        yield {"output": snippets}

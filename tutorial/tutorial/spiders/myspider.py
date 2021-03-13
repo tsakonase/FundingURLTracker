@@ -45,8 +45,8 @@ class TermsOfUseSpider(scrapy.Spider):
             return None
 
         # extract snippets:
-        snippets = KeywordChecker().extract_snippets(text)
+        snippets, fuzzy_sim_previous = KeywordChecker().extract_snippets(text)
 
-        yield {"output": snippets}
+        yield {"snippets": snippets, "prev_sim": fuzzy_sim_previous, "response_status": response.status}
 
 

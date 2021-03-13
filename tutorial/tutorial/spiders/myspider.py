@@ -24,7 +24,7 @@ class TermsOfUseSpider(scrapy.Spider):
             soup = BeautifulSoup(response.body, "html.parser")
         except:
             print ("BeautifulSoup failed to parse the response, exiting...")
-            exit()
+            return None
 
         text = None
         # try to extract text from soup
@@ -42,9 +42,11 @@ class TermsOfUseSpider(scrapy.Spider):
             text = '\n'.join(chunk for chunk in chunks if chunk)
         except:
             print ("Failed to extract the text from HTML, exiting...")
-            exit()
+            return None
 
         # extract snippets:
         snippets = KeywordChecker().extract_snippets(text)
 
         yield {"output": snippets}
+
+

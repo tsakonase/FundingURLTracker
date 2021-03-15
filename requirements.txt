@@ -1,0 +1,4 @@
+scrapy
+intervaltree
+nltk
+unidecode
